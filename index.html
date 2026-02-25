@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Clone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="messenger">
+
+    <!-- LEFT SIDEBAR — Conversation List -->
+    <aside class="sidebar">
+        <header class="sidebar-header">
+            <h1>Chats</h1>
+        </header>
+
+        <div class="conversation-list">
+
+            <div class="conversation active">
+                <img src="pfp1.jpg" class="pfp">
+                <div>
+                    <div class="name">Crew</div>
+                    <div class="preview">I'm super down for Saturday!</div>
+                </div>
+                <span class="time">2:14 PM</span>
+            </div>
+
+            <div class="conversation">
+                <img src="pfp2.jpg" class="pfp">
+                <div>
+                    <div class="name">Alice Chuang</div>
+                    <div class="preview">Sounds good to me!</div>
+                </div>
+                <span class="time">1:03 PM</span>
+            </div>
+
+            <div class="conversation">
+                <img src="pfp3.jpg" class="pfp">
+                <div>
+                    <div class="name">James Neumann</div>
+                    <div class="preview">Let me know when you're free.</div>
+                </div>
+                <span class="time">12:48 PM</span>
+            </div>
+
+            <div class="conversation">
+                <img src="pfp4.jpg" class="pfp">
+                <div>
+                    <div class="name">Hailey Cook</div>
+                    <div class="preview">Okay perfect!</div>
+                </div>
+                <span class="time">11:22 AM</span>
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- CHAT AREA -->
+    <main class="chat">
+        <header class="chat-header">
+            <div class="chat-info">
+                <img src="pfp1.jpg" class="pfp">
+                <div>
+                    <div class="name">Crew</div>
+                    <div class="status">Active now</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="messages">
+
+            <div class="message received">
+                <img src="cat.jpg" class="chat-image">
+            </div>
+
+            <div class="message received">haha</div>
+            <div class="message received">hahahah</div>
+            <div class="message received">My friend Sarah will love this</div>
+            <div class="message received">So good lmao</div>
+            <div class="message received">When are we chatting? I'm free on Saturday</div>
+
+            <div class="message sent">I'm super down for Saturday!</div>
+            <div class="message sent">Let's invite Paul? 1pm?</div>
+
+        </div>
+
+        <footer class="chat-input">
+            <input type="text" placeholder="Type a message…">
+        </footer>
+    </main>
+
+    <!-- RIGHT INFO PANEL (only visible on wide screens) -->
+    <aside class="info-panel">
+        <h2>Details</h2>
+        <p>Shared photos, settings, etc.</p>
+    </aside>
+
+</div>
+
+</body>
+</html>
