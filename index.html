@@ -1,101 +1,629 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger Clone</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Messenger Desktop Clone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-main: #18191a;
+      --bg-elevated: #242526;
+      --bg-elevated-2: #3a3b3c;
+      --border-subtle: #3a3b3c;
+      --text-primary: #e4e6eb;
+      --text-secondary: #b0b3b8;
+      --accent: #0084ff;
+      --accent-soft: #263951;
+      --scrollbar: #4b4c4f;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr) 360px;
+      height: 100vh;
+      background: var(--bg-main);
+    }
+
+    /* LEFT: CHATS LIST */
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-elevated);
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+    }
+
+    .sidebar-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar-small {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #8b8d91;
+    }
+
+    .sidebar-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .icon-btn-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-elevated-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 16px;
+    }
+
+    .icon-btn:hover {
+      background: #4b4c4f;
+    }
+
+    .sidebar-search {
+      padding: 0 12px 10px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated-2);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .search-icon {
+      font-size: 14px;
+    }
+
+    .search-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .conversation-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 8px 8px;
+    }
+
+    .conversation-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .conversation-list::-webkit-scrollbar-thumb {
+      background: var(--scrollbar);
+      border-radius: 999px;
+    }
+
+    .conversation {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .conversation:hover {
+      background: #303031;
+    }
+
+    .conversation.active {
+      background: #303031;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #8b8d91;
+      flex-shrink: 0;
+    }
+
+    .conv-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .conv-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .conv-name {
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .conv-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .conv-preview-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* CENTER: CHAT */
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-main);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chat-name {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .chat-status {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .chat-header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn-square {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-elevated-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 15px;
+    }
+
+    .icon-btn-square:hover {
+      background: #4b4c4f;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .messages::-webkit-scrollbar-thumb {
+      background: var(--scrollbar);
+      border-radius: 999px;
+    }
+
+    .msg-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      max-width: 70%;
+    }
+
+    .msg-row.sent {
+      margin-left: auto;
+      justify-content: flex-end;
+    }
+
+    .msg-bubble {
+      padding: 8px 12px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.35;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+
+    .msg-bubble.received {
+      background: var(--bg-elevated-2);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg-bubble.sent {
+      background: var(--accent);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-image {
+      border-radius: 16px;
+      max-width: 260px;
+      display: block;
+    }
+
+    .msg-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #8b8d91;
+      flex-shrink: 0;
+    }
+
+    .chat-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chat-input-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated-2);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+
+    .chat-input-field {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .emoji-btn {
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .chat-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: white;
+      font-size: 16px;
+    }
+
+    /* RIGHT: INFO PANEL */
+
+    .info-panel {
+      background: var(--bg-elevated);
+      border-left: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .info-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .info-content {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .info-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+
+    .info-photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .info-photo {
+      background: #555;
+      border-radius: 8px;
+      padding-bottom: 100%;
+    }
+
+    /* RESPONSIVE: 2-COLUMN / 3-COLUMN */
+
+    @media (max-width: 1400px) {
+      .app {
+        grid-template-columns: 360px minmax(0, 1fr) 0px;
+      }
+      .info-panel {
+        display: none;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 360px minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .info-panel {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="messenger">
+<div class="app">
 
-    <!-- LEFT SIDEBAR — Conversation List -->
-    <aside class="sidebar">
-        <header class="sidebar-header">
-            <h1>Chats</h1>
-        </header>
+  <!-- LEFT: CHATS LIST -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-header-left">
+        <div class="avatar-small"></div>
+        <div class="sidebar-title">Chats</div>
+      </div>
+      <div class="icon-btn-row">
+        <div class="icon-btn">◯</div>
+        <div class="icon-btn">✚</div>
+      </div>
+    </div>
 
-        <div class="conversation-list">
+    <div class="sidebar-search">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text">
+      </div>
+    </div>
 
-            <div class="conversation active">
-                <img src="pfp1.jpg" class="pfp">
-                <div>
-                    <div class="name">Crew</div>
-                    <div class="preview">I'm super down for Saturday!</div>
-                </div>
-                <span class="time">2:14 PM</span>
-            </div>
+    <div class="conversation-list">
 
-            <div class="conversation">
-                <img src="pfp2.jpg" class="pfp">
-                <div>
-                    <div class="name">Alice Chuang</div>
-                    <div class="preview">Sounds good to me!</div>
-                </div>
-                <span class="time">1:03 PM</span>
-            </div>
-
-            <div class="conversation">
-                <img src="pfp3.jpg" class="pfp">
-                <div>
-                    <div class="name">James Neumann</div>
-                    <div class="preview">Let me know when you're free.</div>
-                </div>
-                <span class="time">12:48 PM</span>
-            </div>
-
-            <div class="conversation">
-                <img src="pfp4.jpg" class="pfp">
-                <div>
-                    <div class="name">Hailey Cook</div>
-                    <div class="preview">Okay perfect!</div>
-                </div>
-                <span class="time">11:22 AM</span>
-            </div>
-
+      <div class="conversation active">
+        <div class="avatar"></div>
+        <div class="conv-main">
+          <div class="conv-top-row">
+            <div class="conv-name">Crew</div>
+            <div class="conv-time">2:14 PM</div>
+          </div>
+          <div class="conv-preview-row">
+            <span>I'm super down for Saturday!</span>
+          </div>
         </div>
-    </aside>
+        <div class="unread-dot"></div>
+      </div>
 
-    <!-- CHAT AREA -->
-    <main class="chat">
-        <header class="chat-header">
-            <div class="chat-info">
-                <img src="pfp1.jpg" class="pfp">
-                <div>
-                    <div class="name">Crew</div>
-                    <div class="status">Active now</div>
-                </div>
-            </div>
-        </header>
-
-        <div class="messages">
-
-            <div class="message received">
-                <img src="cat.jpg" class="chat-image">
-            </div>
-
-            <div class="message received">haha</div>
-            <div class="message received">hahahah</div>
-            <div class="message received">My friend Sarah will love this</div>
-            <div class="message received">So good lmao</div>
-            <div class="message received">When are we chatting? I'm free on Saturday</div>
-
-            <div class="message sent">I'm super down for Saturday!</div>
-            <div class="message sent">Let's invite Paul? 1pm?</div>
-
+      <div class="conversation">
+        <div class="avatar"></div>
+        <div class="conv-main">
+          <div class="conv-top-row">
+            <div class="conv-name">Alice Chuang</div>
+            <div class="conv-time">1:03 PM</div>
+          </div>
+          <div class="conv-preview-row">
+            <span>Sounds good to me!</span>
+          </div>
         </div>
+      </div>
 
-        <footer class="chat-input">
-            <input type="text" placeholder="Type a message…">
-        </footer>
-    </main>
+      <div class="conversation">
+        <div class="avatar"></div>
+        <div class="conv-main">
+          <div class="conv-top-row">
+            <div class="conv-name">James Neumann</div>
+            <div class="conv-time">12:48 PM</div>
+          </div>
+          <div class="conv-preview-row">
+            <span>Let me know when you're free.</span>
+          </div>
+        </div>
+      </div>
 
-    <!-- RIGHT INFO PANEL (only visible on wide screens) -->
-    <aside class="info-panel">
-        <h2>Details</h2>
-        <p>Shared photos, settings, etc.</p>
-    </aside>
+      <div class="conversation">
+        <div class="avatar"></div>
+        <div class="conv-main">
+          <div class="conv-top-row">
+            <div class="conv-name">Hailey Cook</div>
+            <div class="conv-time">11:22 AM</div>
+          </div>
+          <div class="conv-preview-row">
+            <span>Okay perfect!</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- CENTER: CHAT -->
+  <section class="chat">
+    <header class="chat-header">
+      <div class="chat-header-left">
+        <div class="avatar-small"></div>
+        <div class="chat-header-text">
+          <div class="chat-name">Crew</div>
+          <div class="chat-status">Active now</div>
+        </div>
+      </div>
+      <div class="chat-header-right">
+        <div class="icon-btn-square">📞</div>
+        <div class="icon-btn-square">🎥</div>
+        <div class="icon-btn-square">ⓘ</div>
+      </div>
+    </header>
+
+    <div class="messages">
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">
+          <img class="msg-image" src="" alt="">
+        </div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">haha</div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">hahahah</div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">My friend Sarah will love this</div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">So good lmao</div>
+      </div>
+
+      <div class="msg-row">
+        <div class="msg-avatar"></div>
+        <div class="msg-bubble received">When are we chatting? I'm free on Saturday</div>
+      </div>
+
+      <div class="msg-row sent">
+        <div class="msg-bubble sent">I'm super down for Saturday!</div>
+      </div>
+
+      <div class="msg-row sent">
+        <div class="msg-bubble sent">Let's invite Paul? 1pm?</div>
+      </div>
+
+    </div>
+
+    <footer class="chat-footer">
+      <div class="chat-input-wrap">
+        <span class="emoji-btn">😊</span>
+        <input class="chat-input-field" type="text">
+      </div>
+      <div class="chat-footer-right">
+        <div class="icon-btn-square">📎</div>
+        <div class="send-btn">➤</div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- RIGHT: INFO PANEL -->
+  <aside class="info-panel">
+    <div class="info-header">Details</div>
+    <div class="info-content">
+      <div class="info-section">
+        <div class="info-section-title">Shared photos</div>
+        <div class="info-photo-grid">
+          <div class="info-photo"></div>
+          <div class="info-photo"></div>
+          <div class="info-photo"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
 
 </div>
 
